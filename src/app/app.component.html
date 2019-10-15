@@ -1,3 +1,75 @@
-<h1>
-  {{title}}
-</h1>
+<div class="card">
+  <div class="card-header">
+    {{title}}
+  </div>
+  <div class="card-body">
+    <div class="container-fluid">
+      <div class="text-center">
+        <img src="./assets/images/colormap.gif"
+             class="img-responsive center-block"
+             style="max-height:100px;padding-bottom:30px" />
+      </div>
+      <div class="text-center">Developed by:</div>
+      <div class="text-center">
+        <h4>William Cheng</h4>
+      </div>
+    </div>
+  </div>
+  <div align="center">
+    <div align="center" style="width:800px;height:500px">
+      <div id="rec" [style.backgroundColor] = 'color' 
+      style="width:250px;height:250px;float:left;"></div>
+      <div style="float:right;font-size:14px;" class='table-reponsive'>
+          <table class='table' *ngIf='opts && opts.length>0'>
+              <thead>
+                  <tr>
+                      <th>
+                          <button style="font-size:12px" class='btn btn-primary' (click)='toggleColor(event)'>
+                            {{ showColor ? 'Show Color' : 'Hide Color' }}
+                          </button>
+                      </th>
+                      <th>Color Name</th>
+                      <th>RGB</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor='let col of opts'>
+                      <td><button class='btn btn-primary' id={{col.name}} [style.color]="'white'"
+                        *ngIf='showColor' style="width:120px;height:30px;font-size:12px" 
+                        [style.background-color]="'rgb('+col.rgbVal[0]+','+
+                        col.rgbVal[1]+','+col.rgbVal[2]+')'" (click)='test()'>{{col.name}}</button></td>
+                      <td>{{ col.name }}</td>
+                      <td>{{ col.rgbVal }}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+    <br>
+    <div style="float:left;margin-left:100px">
+      <div>
+        R: <input type="text" value = "0" [(ngModel)]="redVal" />
+        G: <input type="text" value = "0" [(ngModel)]="greenVal">
+        B: <input type="text" value = "0" [(ngModel)]="blueVal">
+      </div>
+      <br>
+      <div *ngIf='opts && opts.length == 0'>
+        <br>
+        <div class="Block">
+            Import Default Colors: <input type='file' (change)="onClick($event)">
+            <button (click)="importColors()">ReadFile!</button>
+        </div>
+      </div>
+      <div *ngIf='opts && opts.length > 0'>
+          Select default colors from the dropdown list: 
+          <select [(ngModel)]="selectedOpt.name" (change)="changeColor($event.target.value)">
+            <option *ngFor="let opt of opts" value= {{opt.name}}>
+              {{opt.name}}
+            </option>
+          </select>
+      </div>
+    </div>
+
+  </div>
+  <p></p>
+</div>
